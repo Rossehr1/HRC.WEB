@@ -50,7 +50,16 @@ async function deploy() {
     process.exit(1);
   }
 
-  runBuild();
+  const ftpOnly = process.argv[2] === "--ftp-only" || process.env.SKIP_BUILD === "1";
+  if (!ftpOnly) {
+    runBuild();
+  } else {
+    if (!existsSync(join(root, ".next"))) {
+      console.error("No .next folder. Run npm run build first, or use npm run deploy (full).");
+      process.exit(1);
+    }
+    console.log("Skipping build (--ftp-only). Uploading existing files...");
+  }
 
   const client = new Client(60_000);
   client.ftp.verbose = false;

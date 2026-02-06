@@ -8,13 +8,13 @@ type SeoArgs = {
 };
 
 export function buildMetadata(args: SeoArgs): Metadata {
-  const url = `https://${SITE.domain}${args.path ?? ""}`;
+  const url = `${SITE.url}${args.path ?? ""}`;
   const fullTitle = `${args.title} | ${SITE.name}`;
 
   return {
     title: fullTitle,
     description: args.description,
-    metadataBase: new URL(`https://${SITE.domain}`),
+    metadataBase: new URL(SITE.url),
     alternates: { canonical: url },
     openGraph: {
       title: fullTitle,

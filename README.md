@@ -85,21 +85,9 @@ historicreenactors/
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
 
-## Deployment
+## Deployment (production: https://historicreenactors.com)
 
-All changes will be deployed to this repository.
+1. **Publish to Git:** `git add -A && git commit -m "..." && git push origin master`
+2. **Deploy via FTP:** `npm run deploy` (uses `FTP_HOST`, `FTP_USER`, `FTP_PASSWORD` from `.env`)
 
-### FTP Configuration
-
-FTP credentials are stored in the `.env` file (not committed to git for security).
-
-To set up FTP credentials:
-1. Copy `.env.example` to `.env`
-2. Fill in your FTP credentials in the `.env` file
-
-**FTP Server Details:**
-- Host: `92.112.189.73`
-- User: `u660126262.historicreenactors.com`
-- URL: `ftp://92.112.189.73`
-
-The `.env` file contains sensitive information and is excluded from version control via `.gitignore`.
+Copy `.env.example` to `.env` and set FTP credentials. The `.env` file is not committed to git.
