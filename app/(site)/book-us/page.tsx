@@ -14,7 +14,7 @@ export default function BookUsPage() {
       <Container>
         <h1 className="text-3xl font-semibold tracking-tight">Book Us</h1>
         <p className="mt-2 text-ink/80">
-          Share the basics and we'll respond with availability, venue requirements, and a recommended program.
+          Share the basics and we&apos;ll respond with availability, venue requirements, and a recommended program.
         </p>
 
         <div className="mt-8 grid gap-8 md:grid-cols-12">

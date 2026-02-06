@@ -9,7 +9,7 @@ export function CTA() {
           <div>
             <div className="text-xl font-semibold">Planning an event?</div>
             <div className="mt-2 text-sm text-ink/80">
-              Send details and we'll respond with availability, requirements, and a recommended program.
+              Send details and we&apos;ll respond with availability, requirements, and a recommended program.
             </div>
           </div>
           <div className="mt-6 md:mt-0">

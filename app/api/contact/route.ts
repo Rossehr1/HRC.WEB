@@ -57,7 +57,7 @@ export async function POST(req: Request) {
   // MVP behavior: log to server (replace with email provider later)
   // This is safe for now; do not store sensitive data beyond what user submits.
   console.log("CONTACT_SUBMISSION", {
-    kind: (data as any).kind,
+    kind: data.kind,
     at: new Date().toISOString(),
     payload: { ...data, message }
   });

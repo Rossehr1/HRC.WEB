@@ -40,7 +40,7 @@ export default function JoinPage() {
         </div>
 
         <div className="mt-8 text-sm text-ink/80">
-          To express interest, use the <a href="/contact">Contact</a> form and select "Joining/Volunteer."
+          To express interest, use the <a href="/contact">Contact</a> form and select &quot;Joining/Volunteer.&quot;
         </div>
       </Container>
     </section>
