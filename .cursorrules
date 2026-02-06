@@ -1,0 +1,52 @@
+# Historic Reenactors Project Rules
+
+## Tech Stack
+- Next.js 14+ App Router with TypeScript
+- Tailwind CSS only (no inline styles unless required for accessibility)
+- React Server Components by default, Client Components only when necessary
+
+## Code Standards
+
+### Accessibility
+- All components must be accessible (ARIA labels, keyboard navigation)
+- Every page must have:
+  - Title/description metadata
+  - H1 with proper heading hierarchy (H1 → H2 → H3)
+  - At least one CTA for conversion pages
+- Images must include alt text; decorative images use alt=""
+- Forms must validate, prevent spam (honeypot), and show clear success/failure states
+
+### Performance
+- Avoid heavy libraries
+- Minimize client components (use Server Components by default)
+- Optimize images and assets
+
+### Content
+- Professional, family-friendly, museum-appropriate copy
+- Separate nonprofit content from any film/commercial promotions
+- Keep copy clear and educational
+
+### Component Structure
+- Layout components: `components/layout/`
+- Section components: `components/sections/`
+- Form components: `components/forms/`
+- UI components: `components/ui/`
+
+### Forms
+- Use validators from `lib/validators.ts`
+- Include honeypot spam protection
+- Show clear success/failure states
+- Validate on both client and server
+
+### SEO
+- Use `generateSEO()` from `lib/seo.ts` for metadata
+- Proper heading hierarchy
+- Semantic HTML
+
+## File Organization
+- Pages: `app/(site)/`
+- API routes: `app/api/`
+- Components: `components/`
+- Utilities: `lib/`
+- Styles: `app/globals.css`
+- Public assets: `public/`

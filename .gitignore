@@ -9,6 +9,8 @@ yarn.lock
 # Build outputs
 dist/
 build/
+.next/
+out/
 *.tsbuildinfo
 
 # Environment variables
