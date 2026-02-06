@@ -18,6 +18,9 @@ build/
 .env.test.local
 .env.production.local
 
+# FTP Configuration (contains sensitive credentials)
+ftp-config.json
+
 # IDE
 .vscode/
 .idea/
