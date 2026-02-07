@@ -25,13 +25,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "npm"
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          node -v && npm -v
+          npm ci
 
       - name: Build static export
         run: npm run build
+
+      - name: Check FTP secrets
+        run: |
+          if [ -z "${{ secrets.FTP_HOST }}" ] || [ -z "${{ secrets.FTP_USER }}" ] || [ -z "${{ secrets.FTP_PASSWORD }}" ]; then
+            echo "::error::Missing GitHub Secrets. In repo Settings → Secrets and variables → Actions, add FTP_HOST, FTP_USER, FTP_PASSWORD (and FTP_REMOTE_DIR for document root)."
+            exit 1
+          fi
+          echo "FTP secrets are set (FTP_REMOTE_DIR is optional)."
 
       - name: Deploy to FTP
         env:
