@@ -1,42 +1,73 @@
 # Deploy to production (https://historicreenactors.com)
 
-Deployment is **git → FTP**: publish updates to the repo, then deploy to production using FTP credentials from `.env`.
+This project uses **static export** so the site can be served from a static document root (no Node required). See [docs/WHY-SITE-NOT-WORKING.md](docs/WHY-SITE-NOT-WORKING.md) for context.
 
-## 1. Publish updates to Git
+**If the live site still shows the old design:** the domain is serving files from a folder on your host. You must upload the new site (contents of `out/`) into that **exact document root** (e.g. `public_html`). Use either option below.
 
-```bash
-git add -A
-git commit -m "Your message"
-git push origin master
-```
+---
 
-## 2. Deploy to production via FTP
+## Deploy options
 
-From the project root (with `.env` containing `FTP_HOST`, `FTP_USER`, `FTP_PASSWORD`):
+### Option A: Push to Git → automatic deploy (recommended)
+
+1. **One-time:** In the repo go to **Settings → Secrets and variables → Actions**. Add:
+   - `FTP_HOST` – your FTP hostname  
+   - `FTP_USER` – FTP username  
+   - `FTP_PASSWORD` – FTP password  
+   - `FTP_REMOTE_DIR` – **document root** for historicreenactors.com (e.g. `public_html`). Find it in your host’s panel (e.g. Domains → document root).
+2. Commit and push to `master`:
+   ```bash
+   git add -A && git commit -m "Deploy static site" && git push origin master
+   ```
+3. GitHub Actions will build and upload `out/` to `FTP_REMOTE_DIR`. After the workflow succeeds, https://historicreenactors.com should show the new site.
+
+### Option B: Deploy from your machine
+
+1. Set `.env` as in **§2** below (FTP_* and optionally FTP_REMOTE_DIR).
+2. Run: `npm run deploy`
+
+---
+
+## 1. One-time: Forms (static export has no API)
+
+Contact and booking forms need an external endpoint. Recommended: [Formspree](https://formspree.io).
+
+1. Create two forms at Formspree (Contact, Booking).
+2. In `.env` set:
+   - `NEXT_PUBLIC_CONTACT_FORM_ACTION=https://formspree.io/f/your-contact-form-id`
+   - `NEXT_PUBLIC_BOOKING_FORM_ACTION=https://formspree.io/f/your-booking-form-id`
+3. Rebuild and redeploy so the built site uses these URLs.
+
+---
+
+## 2. One-time: FTP and document root
+
+For **Option B** (local deploy), in `.env` set:
+
+- `FTP_HOST`, `FTP_USER`, `FTP_PASSWORD` (your host’s FTP credentials).
+- `FTP_REMOTE_DIR` = the **document root** for historicreenactors.com (e.g. `public_html`). The script uploads the contents of `out/` into this folder so `index.html` is at the domain root. If you don’t set this, uploads go to your FTP user’s home directory, which may not be what the domain serves.
+
+---
+
+## 3. Deploy (every time)
+
+From your machine:
 
 ```bash
 npm run deploy
 ```
 
-This builds the app and uploads to production at https://historicreenactors.com (via FTP credentials in `.env`).
+This runs `next build` (producing `out/`) then uploads the contents of `out/` to `FTP_REMOTE_DIR`. After upload, the live site is the new static site.
 
-- **FTP-only upload** (skip build, use existing `.next`):  
-  `npm run deploy:ftp`
-- **Test FTP connectivity**:  
-  `npm run test-ftp`
+- **Upload only** (reuse existing build): `npm run deploy -- --ftp-only` or `SKIP_BUILD=1 node scripts/deploy-static.mjs`
+- **Build only** (no upload): `npm run build` — output is in `out/`.
 
 ---
 
-## On the production server (after FTP upload)
+## Other methods
 
-On the host that serves https://historicreenactors.com:
-
-```bash
-npm install --omit=dev
-npm start
-```
-
-(Or `npm install --production` and set `PORT` if the host requires it.)
+- **SSH deploy** (if you later run Node on the server): `npm run deploy:ssh`. Requires repo cloned on server and `SSH_*` in `.env`. See GitHub Actions and server setup in repo history if needed.
+- **FTP legacy** (uploads source + .next for Node): `npm run deploy:ftp` — only use if you switch back to running the app with Node.
 
 ---
 
@@ -44,7 +75,6 @@ npm start
 
 | Issue | Action |
 |-------|--------|
-| Port in use | `set PORT=3080 && npm start` (or host’s port) |
-| No .next | Run `npm run deploy` (full build + upload), not only `deploy:ftp` |
-| FTP fails | Run `npm run test-ftp`; check `FTP_HOST`, `FTP_USER`, `FTP_PASSWORD` in `.env` |
-| Node version | Next.js 15 needs Node 18.18+ (`node -v`) |
+| Forms don’t submit | Set `NEXT_PUBLIC_CONTACT_FORM_ACTION` and `NEXT_PUBLIC_BOOKING_FORM_ACTION` in `.env`, then rebuild and redeploy. |
+| Old site still showing | Ensure `FTP_REMOTE_DIR` is the domain’s actual document root and run `npm run deploy` again. |
+| FTP connection fails | Check `FTP_HOST`, `FTP_USER`, `FTP_PASSWORD`; use `npm run test-ftp` to verify. |

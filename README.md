@@ -52,28 +52,15 @@ historicreenactors/
 │   └── api/               # API routes
 │       └── contact/
 ├── components/
-│   ├── layout/            # Layout components
-│   │   ├── Header.tsx
-│   │   └── Footer.tsx
-│   └── ui/                # Reusable UI components
-│       ├── Button.tsx
-│       ├── Card.tsx
-│       ├── Accordion.tsx
-│       ├── Badge.tsx
-│       ├── Modal.tsx
-│       └── Form.tsx
-├── content/               # Content files (MDX/Git CMS)
+│   ├── layout/            # Header, Footer, Container
+│   ├── sections/          # Hero, ValueProps, CTA
+│   └── forms/             # BookingForm, ContactForm
+├── content/
 │   ├── events/
 │   └── posts/
-├── public/                # Static assets
-│   ├── logos/
-│   ├── media-kit/
-│   └── photos/
-├── lib/                   # Utility functions
-│   ├── seo.ts
-│   └── constants.ts
-└── styles/                # Global styles
-    └── globals.css
+├── public/                # logos, media-kit, photos
+├── lib/                    # seo, constants, validators
+└── app/globals.css
 ```
 
 ## Development

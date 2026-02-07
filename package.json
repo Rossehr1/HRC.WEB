@@ -7,8 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "node scripts/deploy-ftp.mjs",
+    "deploy": "node scripts/deploy-static.mjs",
     "deploy:ftp": "node scripts/deploy-ftp.mjs --ftp-only",
+    "deploy:static": "node scripts/deploy-static.mjs",
+    "deploy:ssh": "node scripts/deploy-ssh.mjs",
     "test-ftp": "node scripts/test-ftp.mjs"
   },
   "dependencies": {
@@ -17,6 +19,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "ssh2": "^1.15.0",
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",

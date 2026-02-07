@@ -30,8 +30,9 @@ export function ContactForm() {
     }
 
     setStatus("sending");
+    const endpoint = process.env.NEXT_PUBLIC_CONTACT_FORM_ACTION || "/api/contact";
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ kind: "contact", name, email, topic, message, website })
